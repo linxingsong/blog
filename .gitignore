@@ -58,5 +58,5 @@ typings/
 .env
 
 # ignore configuration folder
-./Server/config/*
+config/*
 
