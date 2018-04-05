@@ -109,7 +109,7 @@ let validPassword = (password) => {
     return false; // Return error
   } else {
     // Regular Expression to test if password is valid format
-    const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
+    const regExp = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_#$^+=!*()@%&]).{8,35}$/);
     return regExp.test(password); // Return regular expression test result (true or false)
   }
 };
@@ -162,7 +162,7 @@ userSchema.pre('save', function (next) {
 });
 
 //decrypt
-userSchema.methods.comparePassword = (password) => {
+userSchema.methods.comparePassword = function(password){
   return bcrypt.compareSync(password, this.password);
 }
 

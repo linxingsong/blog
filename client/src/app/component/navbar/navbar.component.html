@@ -16,12 +16,15 @@
             <a class="nav-link" routerLink='/dashboard'>Dashboard</a>
         </li>
         <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+            <a class="nav-link" routerLink='/profile'>Profile</a>
+          </li>
+        <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
           <a class="nav-link" routerLink='/register'>Sign Up</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Log In</a>
+        <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" routerLink='/login'>Log In</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
             <a class="nav-link" href="#">Log Out</a>
           </li>
       </ul>
