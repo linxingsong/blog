@@ -191,7 +191,7 @@ router.post('/login', (req, res)=>{
               const token = jwt.sign({userID: user._id }, config.secret, {expiresIn: '7d' });
               res.json({
                 success: true,
-                message: "Password matched. Welcome!",
+                message: `Welcome back, ${ user.username }`,
                 token: token,
                 user: { username: user.username}
               })
@@ -205,7 +205,7 @@ router.post('/login', (req, res)=>{
 
 //middleware for get token 
 router.use((req, res, next)=>{
-  const token = req.header['authorization'];
+  const token = req.headers['authorization'];
   if(!token){
     res.json({
       success: false,
@@ -227,7 +227,7 @@ router.use((req, res, next)=>{
 });
 
 router.get('/profile', (req, res)=>{
-  User.findOne({ _id: req.decoded.userId }).select('username email').exec((err, user)=>{
+  User.findOne({ _id: req.decoded.userID }).select('username email').exec((err, user)=>{
     if(err){
       res.json({
         success: false,

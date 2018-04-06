@@ -4,6 +4,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,14 @@ export class LoginComponent implements OnInit {
 
   processing: boolean = false;
   form: FormGroup;
+  previousUrl: string;
 
   constructor(
     private formbuilder: FormBuilder,
     private authService: AuthService,
     private flashMessage: FlashMessagesService,
     private router: Router,
+    private authGuard: AuthGuard
   ) { 
     this.createForm();
   }
@@ -62,13 +65,24 @@ export class LoginComponent implements OnInit {
           cssClass: 'alert-success', timeout: 4000
         });
         this.authService.storeUserData(data.token, data.user);
-        this.router.navigate(['/dashboard']);
+
+        if(this.previousUrl){
+          this.router.navigate([this.previousUrl]);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
       }
     });
   }
 
   ngOnInit() {
-  
+    if(this.authGuard.redirectUrl){
+      this.flashMessage.show('You mush login first to view your profile',{
+        cssClass: 'alert-danger', timeout: 3000
+      });
+      this.previousUrl = this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl = undefined;
+    }
   }
 
 }

@@ -1,0 +1,32 @@
+<h1 class="page-header">Blog Post</h1>
+
+<button type="button" name="button" class="btn btn-info" *ngIf="!newPost" (click)="newBlogForm()">
+  <i class="fa fa-plus"></i>&nbsp;New Blog
+</button>
+
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="reloadBlog()">
+  <i class="fa fa-refresh"></i> &nbsp;&nbsp;Reload
+</button>
+
+<br/>
+<br/>
+<div *ngIf="!newPost">
+  <div class="card">
+    <div class="card-header">Post Titel</div>
+    <div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut magna dictum, viverra lorem eu, fringilla magna. Suspendisse egestas urna a tortor rutrum luctus. Curabitur tristique lacinia lectus, quis pretium massa dignissim non. Nam nisl ipsum, viverra eu arcu eu, finibus vehicula ipsum. Donec quis nulla sem. Ut nisl nisi, rutrum vitae erat in, fringilla scelerisque tellus. Quisque accumsan fermentum massa at maximus. Vestibulum aliquet et felis sed facilisis. Suspendisse erat urna, tincidunt id magna eu, molestie lobortis risus.
+    </div>
+    <div class="card-footer">
+      <p><strong>Posted by: </strong>Sample test</p>
+      <p><strong>Date: </strong>04/08/2018</p>
+      <div>
+        <p><strong>Likes: </strong>25</p>
+        <p><strong>Dislikes: </strong>20</p>
+      </div>
+      <div>
+        <button type="button" name="button" class="btn btn-primary btn-sm">Edit</button>
+        <button type="button" name="button" class="btn btn-danger btn-sm">Delete</button>   
+        </div>
+    </div>
+  </div>
+</div>
+

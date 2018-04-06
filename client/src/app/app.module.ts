@@ -15,6 +15,9 @@ import { RegisterComponent } from './component/register/register.component';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './component/login/login.component';
 import { ProfileComponent } from './component/profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+import { BlogComponent } from './component/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { ProfileComponent } from './component/profile/profile.component';
     DashboardComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +39,9 @@ import { ProfileComponent } from './component/profile/profile.component';
     FlashMessagesModule.forRoot()
   ],
   providers: [
-    AuthService
+    AuthService,
+    AuthGuard,
+    NotAuthGuard
   ],
   bootstrap: [AppComponent]
 })

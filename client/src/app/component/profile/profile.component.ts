@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +7,8 @@ import {AuthService } from '../../services/auth.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: any;
+  username: string;
+  email: string;
 
   constructor(
     private authService: AuthService
@@ -15,8 +16,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile =>{
-      this.user = profile.user;
-    })
+      this.username = profile.user.username;
+      this.email = profile.user.email;
+    });
   }
 
 }
