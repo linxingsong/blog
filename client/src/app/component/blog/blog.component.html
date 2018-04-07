@@ -10,23 +10,101 @@
 
 <br/>
 <br/>
+
+<!-- new blog form -->
+<form [formGroup]="form" name="blogForm" (submit)="onNewBlogSubmit()" *ngIf="newPost">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors }">
+      <input type="text" name="title" class="form-control" placeholder="Enter the blog title..." autocomplete="off" formControlName="title">
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
+        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.blogTitleValidation">Must be a letter or number</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Body Input -->
+  <div class="form-group">
+    <label for="body">Body</label>
+    <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+      <textarea name="body" rows="8" cols="80" placeholder="Enter blog body" class="form-control" formControlName="body"></textarea>
+      <ul class="help-block">
+        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
+        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.minlength"> Min length: 3</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Go Back Button -->
+  <button [disabled]="processing" type="button" name="button" (click)="goBack()" class="btn btn-warning">Go Back</button>
+  <!-- Submit Button -->
+  <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
+
+</form>
+
+<!-- end new blog form -->
+
 <div *ngIf="!newPost">
   <div class="card">
     <div class="card-header">Post Titel</div>
-    <div class="card-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut magna dictum, viverra lorem eu, fringilla magna. Suspendisse egestas urna a tortor rutrum luctus. Curabitur tristique lacinia lectus, quis pretium massa dignissim non. Nam nisl ipsum, viverra eu arcu eu, finibus vehicula ipsum. Donec quis nulla sem. Ut nisl nisi, rutrum vitae erat in, fringilla scelerisque tellus. Quisque accumsan fermentum massa at maximus. Vestibulum aliquet et felis sed facilisis. Suspendisse erat urna, tincidunt id magna eu, molestie lobortis risus.
+    <div class="card-body">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut magna dictum, viverra lorem eu, fringilla magna. Suspendisse
+      egestas urna a tortor rutrum luctus. Curabitur tristique lacinia lectus, quis pretium massa dignissim non. Nam nisl
+      ipsum, viverra eu arcu eu, finibus vehicula ipsum. Donec quis nulla sem. Ut nisl nisi, rutrum vitae erat in, fringilla
+      scelerisque tellus. Quisque accumsan fermentum massa at maximus. Vestibulum aliquet et felis sed facilisis. Suspendisse
+      erat urna, tincidunt id magna eu, molestie lobortis risus.
     </div>
     <div class="card-footer">
-      <p><strong>Posted by: </strong>Sample test</p>
-      <p><strong>Date: </strong>04/08/2018</p>
-      <div>
-        <p><strong>Likes: </strong>25</p>
-        <p><strong>Dislikes: </strong>20</p>
-      </div>
-      <div>
-        <button type="button" name="button" class="btn btn-primary btn-sm">Edit</button>
-        <button type="button" name="button" class="btn btn-danger btn-sm">Delete</button>   
+      <p>
+        <strong>Posted by: </strong>Sample test</p>
+      <p>
+        <strong>Date: </strong>04/08/2018</p>
+      <p>
+        <strong>Likes: </strong>25</p>
+      <p>
+        <strong>Dislikes: </strong>20</p>
+      <button type="button" name="button" class="btn btn-primary btn-sm">Edit</button>
+      <button type="button" name="button" class="btn btn-danger btn-sm">Delete</button>
+
+      <!-- likes dropdown -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-success btn-sm">
+          <span>
+            <i class="fa fa-thumbs-up"></i>&nbsp;Like: 25 </span>
+        </button>
+        <div class="dropdown-content">
+          <a href="#">user1</a>
+          <a href="#">user2</a>
+          <a href="#">user3</a>
         </div>
+      </div>
+      <!-- dislikes dropdown -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-secondary btn-sm">
+          <span>
+            <i class="fa fa-thumbs-down"></i>&nbsp;DisLike: 20 </span>
+        </button>
+        <div class="dropdown-content">
+          <a href="#">user4</a>
+          <a href="#">user5</a>
+          <a href="#">user6</a>
+        </div>
+      </div>
     </div>
+
+    <!-- comments -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <button type="button" name="button" class="btn btn-info btn-sm" (click)="draftComment()">Post Comment </button>
+        <br/>
+        <!-- <form>
+          <textarea name="comment" cols="30" rows="10" class="form-control"></textarea>
+          <button type="button" name="button" class="btn btn-sm btn-success">Submit Post</button>
+          <button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
+        </form> -->
+      </li>
+    </ul>
   </div>
 </div>
-

@@ -188,7 +188,7 @@ router.post('/login', (req, res)=>{
                 message: "Password is not matched"
               });
             } else {
-              const token = jwt.sign({userID: user._id }, config.secret, {expiresIn: '7d' });
+              const token = jwt.sign({userID: user._id }, config.secret, { expiresIn: '30d' });
               res.json({
                 success: true,
                 message: `Welcome back, ${ user.username }`,

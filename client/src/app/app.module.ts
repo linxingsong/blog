@@ -13,6 +13,8 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { RegisterComponent } from './component/register/register.component';
 
 import { AuthService } from './services/auth.service';
+import { BlogService } from './services/blog.service';
+
 import { LoginComponent } from './component/login/login.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -40,6 +42,7 @@ import { BlogComponent } from './component/blog/blog.component';
   ],
   providers: [
     AuthService,
+    BlogService,
     AuthGuard,
     NotAuthGuard
   ],

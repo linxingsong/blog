@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const authentication  = require('./routes/authenticaton');
+const blogs = require('./routes/blog');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config_url.url, (err)=>{
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 
 //cors here. cross domain
 app.use('/authentication', cors(corsOptions), authentication);
+app.use('/blog', cors(corsOptions), blogs);
 
 app.get('/', (req, res)=>{
   res.sendFile(path.join(__dirname+'/client/dist/index.html'));
