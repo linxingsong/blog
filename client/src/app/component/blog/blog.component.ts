@@ -19,6 +19,7 @@ export class BlogComponent implements OnInit {
   form: FormGroup;
   processing: boolean = false;
   username: string;
+  blogPosts: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,7 +56,7 @@ export class BlogComponent implements OnInit {
   }
 
   blogTitleValidation(controls){
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
+    const regExp = new RegExp(/^[a-zA-Z0-9!@#\$/%\^\&*\)\(+=.;_\'\"\"\'-]+$/);
     if(regExp.test(controls.value)){
       return null;
     } else {
@@ -69,6 +70,7 @@ export class BlogComponent implements OnInit {
 
   reloadBlog(){
     this.loadingBlogs = true;
+    this.getAllBlogs();
     setTimeout(()=>{
       this.loadingBlogs = false;
     }, 4000);
@@ -97,6 +99,7 @@ export class BlogComponent implements OnInit {
         this.flashMessage.show(data.message, {
           cssClass: 'alert-success', timeout: 4000
         });
+        this.getAllBlogs();
         this.newPost = false;
         this.processing = false;
         this.form.reset();
@@ -109,10 +112,17 @@ export class BlogComponent implements OnInit {
     window.location.reload();
   }
 
+  getAllBlogs(){
+    this.blogService.getAllBlogs().subscribe( data =>{
+      this.blogPosts = data.blog;
+    });
+  }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(profile =>{
       this.username = profile.user.username;
-    })
+    });
+    this.getAllBlogs();
   }
 
 }

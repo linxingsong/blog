@@ -47,30 +47,28 @@
 <!-- end new blog form -->
 
 <div *ngIf="!newPost">
-  <div class="card">
-    <div class="card-header">Post Titel</div>
+  <div class="card" *ngFor="let blog of blogPosts">
+    <div class="card-header">{{blog.title}}</div>
     <div class="card-body">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut magna dictum, viverra lorem eu, fringilla magna. Suspendisse
-      egestas urna a tortor rutrum luctus. Curabitur tristique lacinia lectus, quis pretium massa dignissim non. Nam nisl
-      ipsum, viverra eu arcu eu, finibus vehicula ipsum. Donec quis nulla sem. Ut nisl nisi, rutrum vitae erat in, fringilla
-      scelerisque tellus. Quisque accumsan fermentum massa at maximus. Vestibulum aliquet et felis sed facilisis. Suspendisse
-      erat urna, tincidunt id magna eu, molestie lobortis risus.
+      {{ blog.body }}
     </div>
     <div class="card-footer">
       <p>
-        <strong>Posted by: </strong>Sample test</p>
+        <strong>Posted by: </strong>{{ blog.createdBy }}</p>
       <p>
-        <strong>Date: </strong>04/08/2018</p>
-      <p>
-        <strong>Likes: </strong>25</p>
-      <p>
-        <strong>Dislikes: </strong>20</p>
-      <button type="button" name="button" class="btn btn-primary btn-sm">Edit</button>
-      <button type="button" name="button" class="btn btn-danger btn-sm">Delete</button>
+        <strong>Date: </strong>{{ blog.createdAt | date: 'MMM dd, yyyy' }}</p>
+      <div *ngIf="username === blog.createdBy">
+        <p>
+          <strong>Likes: </strong>{{ blog.likes }}</p>
+        <p>
+          <strong>Dislikes: </strong>{{ blog.dislikes }}</p>
+      </div>
+      <a [routerLink]="['/edit-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button" class="btn btn-primary btn-sm">Edit</button></a>
+      <a [routerLink]="['/delete-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button" class="btn btn-danger btn-sm">Delete</button></a>
 
       <!-- likes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-success btn-sm">
+        <button type="button" name="button" class="btn btn-success btn-sm" *ngIf="username !== blog.createdBy">
           <span>
             <i class="fa fa-thumbs-up"></i>&nbsp;Like: 25 </span>
         </button>
@@ -82,7 +80,7 @@
       </div>
       <!-- dislikes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-secondary btn-sm">
+        <button type="button" name="button" class="btn btn-secondary btn-sm" *ngIf="username !== blog.createdBy">
           <span>
             <i class="fa fa-thumbs-down"></i>&nbsp;DisLike: 20 </span>
         </button>

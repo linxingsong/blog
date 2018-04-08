@@ -150,9 +150,6 @@ router.get('/checkUsername/:username', (req,res)=>{
       }
     });
   }
-
-
-
 });
 
 router.post('/login', (req, res)=>{
@@ -188,13 +185,13 @@ router.post('/login', (req, res)=>{
                 message: "Password is not matched"
               });
             } else {
-              const token = jwt.sign({userID: user._id }, config.secret, { expiresIn: '30d' });
+              const token = jwt.sign({userId: user._id }, config.secret, { expiresIn: '30d' });
               res.json({
                 success: true,
                 message: `Welcome back, ${ user.username }`,
                 token: token,
                 user: { username: user.username}
-              })
+              });
             }
           } 
         }
@@ -227,7 +224,7 @@ router.use((req, res, next)=>{
 });
 
 router.get('/profile', (req, res)=>{
-  User.findOne({ _id: req.decoded.userID }).select('username email').exec((err, user)=>{
+  User.findOne({ _id: req.decoded.userId }).select('username email').exec((err, user)=>{
     if(err){
       res.json({
         success: false,

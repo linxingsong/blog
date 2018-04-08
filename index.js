@@ -25,18 +25,16 @@ mongoose.connect(config_url.url, (err)=>{
 const corsOptions = {
   origin: 'http://localhost:4200'
 }
-
-app.use(express.static(__dirname+'/client/dist/'));
 //body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 //cors here. cross domain
+app.use(express.static(__dirname+'/public'));
 app.use('/authentication', cors(corsOptions), authentication);
-app.use('/blog', cors(corsOptions), blogs);
-
-app.get('/', (req, res)=>{
-  res.sendFile(path.join(__dirname+'/client/dist/index.html'));
+app.use('/blogs', cors(corsOptions), blogs);
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
 
