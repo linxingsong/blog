@@ -68,6 +68,12 @@ export class AuthService {
   loggedIn(){
     return tokenNotExpired();
   }
+
+  getpublicProfile(username){
+    this.createAuthenticationHeader();
+    return this.http.get(this.domain + 'authentication/publicProfile/'+username, this.options).map(res=> res.json());
+  }
+
   ngOnInit() {
     const token = localStorage.getItem('token'); // Check if a token exists in local storage
     // Check if the token actually exists

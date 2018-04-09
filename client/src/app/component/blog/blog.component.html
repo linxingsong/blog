@@ -68,26 +68,23 @@
 
       <!-- likes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-success btn-sm" *ngIf="username !== blog.createdBy">
+        <button [disabled]="blog?.likedBy.indexOf(username)> -1" 
+        type="button" name="button" class="btn btn-success btn-sm" *ngIf="username !== blog.createdBy" (click)="likeBlog(blog?._id)">
           <span>
-            <i class="fa fa-thumbs-up"></i>&nbsp;Like: 25 </span>
+            <i class="fa fa-thumbs-up"></i>&nbsp;Likes: {{ blog?.likes }} </span>
         </button>
         <div class="dropdown-content">
-          <a href="#">user1</a>
-          <a href="#">user2</a>
-          <a href="#">user3</a>
+          <a [routerLink]="['/user/', liker]" *ngFor="let liker of blog?.likedBy">{{ liker }}</a>
         </div>
       </div>
       <!-- dislikes dropdown -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-secondary btn-sm" *ngIf="username !== blog.createdBy">
+        <button [disabled]="blog?.dislikedBy.indexOf(username)> -1" type="button" name="button" class="btn btn-secondary btn-sm" *ngIf="username !== blog.createdBy" (click)="dislikeBlog(blog?._id)">
           <span>
-            <i class="fa fa-thumbs-down"></i>&nbsp;DisLike: 20 </span>
+            <i class="fa fa-thumbs-down"></i>&nbsp;DisLike: {{ blog?.dislikes }}</span>
         </button>
         <div class="dropdown-content">
-          <a href="#">user4</a>
-          <a href="#">user5</a>
-          <a href="#">user6</a>
+            <a [routerLink]="['/user/', disliker]" *ngFor="let disliker of blog?.dislikedBy">{{ disliker }}</a>
         </div>
       </div>
     </div>
