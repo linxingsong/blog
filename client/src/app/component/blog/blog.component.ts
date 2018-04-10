@@ -6,6 +6,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { VALID } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-blog',
@@ -17,9 +18,12 @@ export class BlogComponent implements OnInit {
   newPost: boolean = false;
   loadingBlogs: boolean = false;
   form: FormGroup;
+  commentForm: FormGroup;
   processing: boolean = false;
   username: string;
   blogPosts: any;
+  newComment: any[] =[];
+  enableComments: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +32,7 @@ export class BlogComponent implements OnInit {
     private flashMessage: FlashMessagesService
   ) {
     this.createNewBlogForm();
+    this.createCommentForm();
    }
 
   createNewBlogForm(){
@@ -42,7 +47,17 @@ export class BlogComponent implements OnInit {
         Validators.required,
         Validators.minLength(3)
       ])]
-    })
+    });
+  }
+
+  createCommentForm(){
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(200)
+      ])]
+    });
   }
 
   enableFormNewBlogForm(){
@@ -53,6 +68,14 @@ export class BlogComponent implements OnInit {
   disableFormNewBlogForm(){
     this.form.get('title').disable();
     this.form.get('body').disable();
+  }
+
+  enableCommentForm(){
+    this.commentForm.get('comment').enable();
+  }
+
+  disableCommentForm(){
+    this.commentForm.get('comment').disable();
   }
 
   blogTitleValidation(controls){
@@ -74,10 +97,6 @@ export class BlogComponent implements OnInit {
     setTimeout(()=>{
       this.loadingBlogs = false;
     }, 4000);
-  }
-
-  draftComment(){
-
   }
 
   onNewBlogSubmit(){
@@ -128,6 +147,46 @@ export class BlogComponent implements OnInit {
     this.blogService.dislikeBlog(id).subscribe(data=>{
       this.getAllBlogs();
     });
+  }
+
+  draftComment(id){
+    this.commentForm.reset();
+    this.newComment=[];
+    this.newComment.push(id);
+  }
+
+  postComment(id){
+    this.disableCommentForm();
+    this.processing= true;
+    const comment = this.commentForm.get('comment').value;
+    this.blogService.postComment(id, comment).subscribe(data=>{
+      this.getAllBlogs();
+      const index = this.newComment.indexOf(id);
+      this.newComment.splice(index, 1);
+      this.enableCommentForm();
+      this.commentForm.reset();
+      this.processing = false;
+      if(this.enableComments.indexOf(id)<0){
+        this.expand(id);
+      }
+    });
+  }
+
+  cancelSubmission(id){
+    const index = this.newComment.indexOf(id);
+    this.newComment.splice(index, 1);
+    this.commentForm.reset();
+    this.enableCommentForm();
+    this.processing = false;
+  }
+
+  expand(id){
+    this.enableComments.push(id);
+  }
+
+  collapse(id){
+    const index = this.enableComments.indexOf(id);
+    this.enableComments.splice(index,1);
   }
 
   ngOnInit() {

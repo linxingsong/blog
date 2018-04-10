@@ -59,4 +59,4 @@ typings/
 
 # ignore configuration folder
 config/*
-
+public/*
