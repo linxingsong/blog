@@ -58,5 +58,5 @@ typings/
 .env
 
 # ignore configuration folder
-#config/*
-#public/*
+config/*
+public/*
